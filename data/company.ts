@@ -21,8 +21,8 @@ export const company = {
   /** 사업장 주소 — 공개할 경우에만 값을 채우세요. */
   address: null as string | null,
 
-  email: "hello@vivaspace.kr",
-  siteUrl: "https://vivaspace.kr",
+  email: "support@vivaspace.co.kr",
+  siteUrl: "https://vivaspace.co.kr",
 
   foundedYear: 2026,
 } as const;

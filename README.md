@@ -79,9 +79,9 @@ Available on 섹션에 버튼으로 나옵니다. 하나도 없으면 "출시 �
 | `businessNumber` | `null` | 사업자등록 후 실제 번호 입력. `null`이면 푸터에서 자동으로 숨겨집니다. |
 | `mailOrderNumber` | `null` | 통신판매업 신고 대상인 경우에만 입력 |
 | `address` | `null` | 사업장 주소를 공개할 경우 입력 |
-| `email` | `hello@vivaspace.kr` | 도메인 메일 개설 후 수신 확인 |
+| `email` | `support@vivaspace.co.kr` | 도메인 메일 개설 후 수신 확인 |
 | `ceo` | `오기쁨` | 개인정보처리방침의 개인정보 보호책임자 표기에만 사용 (푸터·구조화 데이터에는 노출하지 않음) |
-| `siteUrl` | `https://vivaspace.kr` | 도메인 확정 시 확인 (canonical · OG · sitemap 기준값) |
+| `siteUrl` | `https://vivaspace.co.kr` | 확정된 도메인 (canonical · OG · sitemap 기준값) |
 
 `app/privacy/page.tsx`, `app/terms/page.tsx`의 `EFFECTIVE_DATE`도 실제
 시행일로 맞춰주세요.
