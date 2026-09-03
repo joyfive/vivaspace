@@ -1,0 +1,180 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------
+   VIVASPACE design tokens
+   화이트 베이스 · 거의 블랙에 가까운 텍스트 · 단일 포인트 컬러
+   --------------------------------------------------------------- */
+
+:root {
+  --bg: #ffffff;
+  --surface: #fafaf9;
+  --ink: #111113;
+  --muted: #56565e;
+  --faint: #8b8b93;
+  --line: #e7e7e3;
+  --line-strong: #d3d3ce;
+  --accent: #2445e5;
+  --accent-ink: #ffffff;
+
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system,
+    BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0c0c0d;
+    --surface: #141416;
+    --ink: #f3f3f1;
+    --muted: #a3a3ab;
+    --faint: #77777f;
+    --line: #26262a;
+    --line-strong: #3a3a40;
+    --accent: #7d95ff;
+    --accent-ink: #0c0c0d;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/* 서비스별 포인트 컬러 — data/services.ts 의 accent 값을 인라인 변수로 받습니다. */
+[data-product] {
+  --product-accent: var(--pa-light, var(--accent));
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-product] {
+    --product-accent: var(--pa-dark, var(--accent));
+  }
+}
+
+/* 약관 · 방침 등 긴 본문 */
+.legal-prose {
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.85;
+}
+
+.legal-prose h2 {
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  color: var(--ink);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.legal-prose h3 {
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  color: var(--ink);
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.legal-prose p + p {
+  margin-top: 0.85rem;
+}
+
+.legal-prose ul,
+.legal-prose ol {
+  margin-top: 0.85rem;
+  padding-left: 1.1rem;
+}
+
+.legal-prose ul {
+  list-style: disc;
+}
+
+.legal-prose ol {
+  list-style: decimal;
+}
+
+.legal-prose li + li {
+  margin-top: 0.4rem;
+}
+
+.legal-prose li::marker {
+  color: var(--faint);
+}
+
+.legal-prose a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.2s;
+}
+
+.legal-prose a:hover {
+  text-decoration-color: currentColor;
+}
+
+.legal-prose strong {
+  color: var(--ink);
+  font-weight: 600;
+}
