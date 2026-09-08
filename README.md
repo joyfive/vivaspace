@@ -31,8 +31,7 @@ app/
 ├── terms/page.tsx            이용약관
 ├── sitemap.ts · robots.ts    SEO
 ├── icon.tsx                  파비콘 (심볼 기반, 동적 생성)
-├── apple-icon.tsx            iOS 홈 화면 아이콘 (동적 생성)
-└── opengraph-image.tsx       OG 이미지 (동적 생성)
+└── apple-icon.tsx            iOS 홈 화면 아이콘 (동적 생성)
 
 data/
 ├── company.ts                사업자 · 브랜드 정보 · 키워드 · Process 단계
@@ -40,6 +39,8 @@ data/
 
 data/legal/then-privacy.ts    Then 방침 본문 (국문 · 영문)
 lib/brand-image.ts            ImageResponse 용 심볼 · 브랜드 상수
+lib/seo.ts                    공유 카드 이미지 (전 페이지 공용)
+public/og.png                 OG · Twitter 카드 이미지
 components/                   레이아웃 · UI 조각
 public/symbol.webp            심볼 (웹 표시용)
 public/symbol-512.png         심볼 (OG · apple-icon 용)
@@ -113,8 +114,9 @@ Available on 섹션에 버튼으로 나옵니다. 하나도 없으면 "출시 �
 때문에, `openGraph`를 따로 정의하는 페이지는 이 상수를 반드시 함께 넣어야
 합니다. 넣지 않으면 그 페이지만 공유 카드에 이미지가 빠집니다.
 
-디자인된 PNG로 교체하려면 `public/og.png`를 넣고 `shareImage.url`을
-`/og.png`로 바꾼 뒤 `app/opengraph-image.tsx`를 지우면 됩니다.
+공유 이미지는 디자인된 `public/og.png`(1730 × 909)를 그대로 씁니다. 교체할
+때는 `shareImage`의 `width` · `height`도 실제 파일 크기에 맞춰주세요. 선언값과
+파일이 다르면 일부 크롤러가 카드를 잘못된 비율로 잡습니다.
 
 ## 제품별 법적 고지
 

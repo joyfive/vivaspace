@@ -7,12 +7,13 @@ import { company } from "@/data/company";
  * 덮어써집니다. 그래서 openGraph 를 따로 정의하는 페이지는 이 상수를 반드시
  * 함께 넣어야 합니다.
  *
- * 디자인된 PNG 로 교체할 때는 url 만 "/og.png" 로 바꾸고
- * app/opengraph-image.tsx 를 지우면 됩니다.
+ * width · height 는 public/og.png 의 실제 크기입니다. 이미지를 교체하면
+ * 이 값도 함께 맞춰주세요. 선언값과 파일이 다르면 일부 크롤러가 카드를
+ * 잘못된 비율로 잡습니다.
  */
 export const shareImage = {
-  url: "/opengraph-image",
-  width: 1200,
-  height: 630,
+  url: "/og.png",
+  width: 1730,
+  height: 909,
   alt: company.seo.shareImageAlt,
 } as const;
