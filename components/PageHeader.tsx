@@ -10,14 +10,14 @@ export function PageHeader({
   description?: string;
 }) {
   return (
-    <Container>
-      <header className="pt-16 pb-10 sm:pt-20 sm:pb-12">
+    <Container wide>
+      <header className="border-b border-line pb-12 pt-16 sm:pb-16 sm:pt-24">
         {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-        <h1 className="mt-4 text-3xl font-semibold leading-tight tracking-tight text-ink sm:text-[2.5rem]">
+        <h1 className="display mt-6 max-w-3xl text-[clamp(2rem,5vw,3.25rem)] text-ink">
           {title}
         </h1>
         {description && (
-          <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
+          <p className="mt-6 max-w-xl text-[0.9375rem] leading-relaxed text-muted sm:text-base">
             {description}
           </p>
         )}

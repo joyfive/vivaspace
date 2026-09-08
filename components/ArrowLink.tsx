@@ -29,7 +29,7 @@ export function ArrowLink({
     </>
   );
 
-  const classes = `group inline-flex items-center gap-1.5 text-sm font-medium text-accent ${className}`;
+  const classes = `group inline-flex items-center gap-2 text-sm font-medium tracking-tight text-accent ${className}`;
 
   if (external) {
     return (

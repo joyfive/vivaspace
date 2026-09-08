@@ -21,9 +21,10 @@ export default function PrivacyPage() {
         description={`시행일 ${EFFECTIVE_DATE}`}
       />
 
-      <Container>
-        <div className="pb-24 sm:pb-32">
-          <div className="legal-prose">
+      <Container wide>
+        <div className="pb-24 pt-14 sm:pb-32">
+          {/* 본문은 읽기 좋은 폭으로 제한하되 좌측 기준선은 헤더와 맞춥니다. */}
+          <div className="legal-prose max-w-[46rem]">
             <p>
               {company.nameKo}(이하 &lsquo;회사&rsquo;)는 「개인정보 보호법」 등
               관련 법령을 준수하며, 이용자의 개인정보를 보호하기 위해 다음과 같은

@@ -2,38 +2,55 @@
 
 /* ---------------------------------------------------------------
    VIVASPACE design tokens
-   화이트 베이스 · 거의 블랙에 가까운 텍스트 · 단일 포인트 컬러
+   Structured outside, alive inside.
+
+   원칙: Neutral 85 / Brand 15.
+   브랜드 컬러는 "칠하는 색"(--viva 계열)과 "읽는 색"(--accent)을
+   분리합니다. 심볼과 그라디언트가 브랜드 인상을 책임지고,
+   텍스트는 대비를 확보한 잉크 톤이 책임집니다.
    --------------------------------------------------------------- */
 
 :root {
-  --bg: #ffffff;
-  --surface: #fafaf9;
-  --ink: #111113;
-  --muted: #56565e;
-  --faint: #8b8b93;
-  --line: #e7e7e3;
-  --line-strong: #d3d3ce;
-  --accent: #2445e5;
-  --accent-ink: #ffffff;
+  /* Neutral — warm white base */
+  --bg: #faf9f7;
+  --surface: #f2f0ec;
+  --ink: #171719;
+  --muted: #5a5a60;
+  --faint: #6c6c74;
+  --line: #e6e3de;
+  --line-strong: #d3cfc8;
 
-  --font-sans: "Pretendard Variable", Pretendard, -apple-system,
-    BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI",
-    Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
-    "Liberation Mono", monospace;
+  /* Brand — 로고에서 추출한 Red Pink */
+  --viva: #ff2e6e; /* Viva Red   — 면·그라디언트 전용 */
+  --coral: #ff6b6d; /* Soft Coral — 보조 */
+  --pale: #ffbfa3; /* Pale Pink  — 넓은 면적 */
+  --accent: #c50f55; /* 텍스트·링크용 (AA 5.6:1) */
+  --accent-ink: #ffffff; /* --accent 위에 얹는 색 */
+  --glow: rgba(255, 46, 110, 0.14);
+
+  --font-sans: Geist, "Pretendard Variable", Pretendard, -apple-system,
+    BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo,
+    Consolas, "Liberation Mono", monospace;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #0c0c0d;
-    --surface: #141416;
-    --ink: #f3f3f1;
-    --muted: #a3a3ab;
-    --faint: #77777f;
-    --line: #26262a;
+    --surface: #151517;
+    --ink: #f4f2ef;
+    --muted: #a5a5ad;
+    --faint: #83838b;
+    --line: #262629;
     --line-strong: #3a3a40;
-    --accent: #7d95ff;
+
+    --viva: #ff4d6d;
+    --coral: #ff6b6d;
+    --pale: #ffbfa3;
+    --accent: #ff6b8e; /* 다크에서는 밝은 쪽이 읽힙니다 (7.2:1) */
     --accent-ink: #0c0c0d;
+    --glow: rgba(255, 77, 109, 0.18);
   }
 }
 
@@ -45,6 +62,9 @@
   --color-faint: var(--faint);
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
+  --color-viva: var(--viva);
+  --color-coral: var(--coral);
+  --color-pale: var(--pale);
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
 
@@ -62,6 +82,7 @@
     background-color: var(--bg);
     color: var(--ink);
     font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv01";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -70,8 +91,8 @@
   }
 
   ::selection {
-    background-color: var(--accent);
-    color: var(--accent-ink);
+    background-color: var(--viva);
+    color: #ffffff;
   }
 
   :focus-visible {
@@ -88,20 +109,91 @@
     *::before,
     *::after {
       animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
   }
 }
 
+/* ---------------------------------------------------------------
+   타이포 유틸리티
+   큰 메시지는 과감하게, UI 디테일은 작고 절제되게.
+   --------------------------------------------------------------- */
+
+/* 섹션 위 작은 라벨 — 대문자 + 넓은 자간 */
 @utility eyebrow {
   font-size: 0.6875rem;
   font-weight: 500;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--faint);
 }
 
-/* 서비스별 포인트 컬러 — data/services.ts 의 accent 값을 인라인 변수로 받습니다. */
+/* 히어로·섹션 헤드라인 — 짧은 문장 전용 */
+@utility display {
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+/* 인덱스 번호, 상태값 등 기계적인 수치 */
+@utility meta {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+}
+
+/* ---------------------------------------------------------------
+   One living element
+   화면 전체가 아니라 심볼 하나만 살아 움직입니다.
+   --------------------------------------------------------------- */
+
+@keyframes symbol-drift {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -2.2%, 0) rotate(3.2deg) scale(1.025);
+  }
+  100% {
+    transform: translate3d(0, 0.8%, 0) rotate(-1.6deg) scale(0.995);
+  }
+}
+
+@keyframes symbol-glow {
+  0% {
+    transform: translate3d(-3%, 2%, 0) scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate3d(4%, -3%, 0) scale(1.12);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(-2%, 3%, 0) scale(0.96);
+    opacity: 0.85;
+  }
+}
+
+.symbol-alive {
+  animation: symbol-drift 22s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.symbol-glow {
+  background: radial-gradient(
+    circle at 50% 50%,
+    var(--glow) 0%,
+    transparent 68%
+  );
+  animation: symbol-glow 26s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+}
+
+/* 서비스별 포인트 컬러 — data/services.ts 의 accent 값을 인라인 변수로 받습니다.
+   비바스페이스 사이트 안에서도 제품은 각자의 컬러를 유지합니다. */
 [data-product] {
   --product-accent: var(--pa-light, var(--accent));
 }
@@ -112,7 +204,10 @@
   }
 }
 
-/* 약관 · 방침 등 긴 본문 */
+/* ---------------------------------------------------------------
+   약관 · 방침 등 긴 본문
+   --------------------------------------------------------------- */
+
 .legal-prose {
   color: var(--muted);
   font-size: 0.9375rem;
