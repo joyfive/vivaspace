@@ -16,10 +16,16 @@ export const company = {
 
   description:
     "아이디어를 구조화하고, 실현 가능한 단위로 만들고, 디지털 제품으로 구현합니다.",
-  descriptionEn:
-    "VIVASPACE is an independent software studio based in Seoul. We plan, design, build and operate our own digital products.",
-  about:
-    "비바스페이스는 서울에 있는 독립 소프트웨어 스튜디오입니다. 외부에서 받은 요구사항을 따라가는 대신, 직접 문제를 고르고 기획 · 디자인 · 개발 · 운영까지 스스로 책임집니다.",
+
+  /** About 본문. 배열의 한 항목이 한 줄이며, 넓은 화면에서만 줄이 나뉩니다. */
+  about: [
+    "비바스페이스는 요구사항을 따라가는 대신,",
+    "직접 문제를 고르고 기획·디자인·개발·운영까지 스스로 책임집니다.",
+  ],
+  aboutEn: [
+    "Instead of following handed-down requirements,",
+    "VIVASPACE picks its own problems and owns the planning, design, engineering and operation.",
+  ],
 
   /** 대표자 — 개인정보처리방침의 개인정보 보호책임자 표기에만 사용합니다. */
   ceo: "오기쁨",

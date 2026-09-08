@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Container } from "@/components/Container";
 import { ProductGrid } from "@/components/ProductGrid";
 import { ProcessDiagram } from "@/components/ProcessDiagram";
-import { Symbol } from "@/components/Symbol";
+import { Symbol, SymbolGlow } from "@/components/Symbol";
 import { HeroConstruction } from "@/components/HeroConstruction";
 import { ArrowLink } from "@/components/ArrowLink";
 import { brandKeywords, company, process as buildSteps } from "@/data/company";
@@ -46,6 +46,7 @@ export default function HomePage() {
                 <ProcessAnnotation />
 
                 <div className="relative mx-auto aspect-square w-[76%] max-w-[33rem] sm:w-[58%] lg:mr-0 lg:ml-[14%] lg:w-[84%] lg:translate-y-[5%]">
+                  <SymbolGlow />
                   <HeroConstruction />
                   <Symbol
                     alive
@@ -113,10 +114,14 @@ export default function HomePage() {
             </div>
 
             <div className="lg:col-span-7">
-              <p className="text-lg leading-[1.75] text-ink">{company.about}</p>
-              <p className="mt-5 text-[0.9375rem] leading-relaxed text-muted">
-                {company.descriptionEn}
-              </p>
+              <Lines
+                lines={company.about}
+                className="text-lg leading-[1.75] text-ink"
+              />
+              <Lines
+                lines={company.aboutEn}
+                className="mt-5 text-[0.9375rem] leading-relaxed text-muted"
+              />
 
               <dl className="mt-14 grid gap-x-8 gap-y-10 sm:grid-cols-2">
                 {brandKeywords.map((keyword) => (
@@ -217,6 +222,25 @@ function BottomUtility() {
         <span className="block">Make them real.</span>
       </p>
     </div>
+  );
+}
+
+/** 지정한 위치에서 줄을 나눕니다. 좁은 화면에서는 자연스럽게 흐르게 둡니다. */
+function Lines({
+  lines,
+  className = "",
+}: {
+  lines: readonly string[];
+  className?: string;
+}) {
+  return (
+    <p className={className}>
+      {lines.map((line, index) => (
+        <span key={line} className={index === 0 ? undefined : "lg:block"}>
+          {index === 0 ? line : ` ${line}`}
+        </span>
+      ))}
+    </p>
   );
 }
 

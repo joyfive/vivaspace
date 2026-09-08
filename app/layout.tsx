@@ -66,7 +66,7 @@ const organizationJsonLd = {
   url: company.siteUrl,
   logo: `${company.siteUrl}/symbol-512.png`,
   slogan: company.tagline,
-  description: company.descriptionEn,
+  description: company.aboutEn.join(" "),
   email: company.email,
   foundingDate: String(company.foundedYear),
   address: {
