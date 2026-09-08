@@ -343,3 +343,19 @@
   color: var(--ink);
   font-weight: 600;
 }
+
+/* 앱 안의 UI 값을 그대로 인용할 때 (예: 반복주기 `없음`) */
+.legal-prose code {
+  padding: 0.15em 0.45em;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background-color: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+
+/* 절 사이 간격 — 첫 절은 도입 문단 바로 뒤라 위쪽 여백을 줄입니다. */
+.legal-prose section > h2:first-child {
+  margin-top: 2.75rem;
+}

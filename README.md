@@ -28,6 +28,7 @@ app/
 ├── contact/page.tsx          문의
 ├── privacy/page.tsx          개인정보처리방침
 ├── terms/page.tsx            이용약관
+├── projects/then/privacy/    Then 개인정보처리방침 (?lan=ko · ?lan=en)
 ├── sitemap.ts · robots.ts    SEO
 ├── icon.tsx                  파비콘 (심볼 기반, 동적 생성)
 ├── apple-icon.tsx            iOS 홈 화면 아이콘 (동적 생성)
@@ -37,6 +38,7 @@ data/
 ├── company.ts                사업자 · 브랜드 정보 · 키워드 · Process 단계
 └── services.ts               서비스 메타데이터 (단일 소스)
 
+data/legal/then-privacy.ts    Then 방침 본문 (국문 · 영문)
 lib/brand-image.ts            ImageResponse 용 심볼 · 브랜드 상수
 components/                   레이아웃 · UI 조각
 public/symbol.webp            심볼 (웹 표시용)
@@ -92,6 +94,21 @@ Available on 섹션에 버튼으로 나옵니다. 하나도 없으면 "출시 �
 
 `app/privacy/page.tsx`, `app/terms/page.tsx`의 `EFFECTIVE_DATE`도 실제
 시행일로 맞춰주세요.
+
+## 제품별 법적 고지
+
+앱스토어 · Play 스토어 심사에 제출하는 주소입니다.
+
+| 제품 | 경로 |
+| --- | --- |
+| Then | `/projects/then/privacy` (국문) · `?lan=en` (영문) |
+
+본문은 `data/legal/`에 국문 · 영문을 나란히 두고, 쿼리(`?lan=`)로 전환합니다.
+쿼리를 읽으므로 이 라우트만 정적 생성이 아니라 요청 시 서버 렌더입니다.
+`lan` 값이 없거나 알 수 없는 값이면 국문으로 떨어집니다.
+
+본문에서 백틱으로 감싼 부분(`` `없음` ``)은 앱 안의 UI 값으로,
+그대로 적힌 이메일 주소는 `mailto` 링크로 자동 렌더됩니다.
 
 ## 브랜드
 
