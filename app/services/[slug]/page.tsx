@@ -8,6 +8,7 @@ import { ServiceHero } from "@/components/ServiceHero";
 import { StoreLinks } from "@/components/StoreLinks";
 import { StatusBadge } from "@/components/StatusBadge";
 import { company } from "@/data/company";
+import { shareImage } from "@/lib/seo";
 import { getService, platformLabel, services } from "@/data/services";
 
 export function generateStaticParams() {
@@ -33,6 +34,7 @@ export async function generateMetadata({
       url: `${company.siteUrl}/services/${service.slug}`,
       title: `${service.name} — ${service.tagline}`,
       description: service.about,
+      images: [shareImage],
     },
   };
 }

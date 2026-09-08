@@ -3,6 +3,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { company } from "@/data/company";
 import { services } from "@/data/services";
+import { shareImage } from "@/lib/seo";
 import "./globals.css";
 
 /**
@@ -18,10 +19,11 @@ const PRETENDARD_CSS =
 export const metadata: Metadata = {
   metadataBase: new URL(company.siteUrl),
   title: {
-    default: `${company.name} — ${company.tagline}`,
-    template: `%s — ${company.name}`,
+    default: company.seo.title,
+    /* 하위 페이지는 "Contact | VIVASPACE" 형태가 됩니다. */
+    template: `%s | ${company.name}`,
   },
-  description: `${company.taglineKo}. ${company.description}`,
+  description: company.seo.description,
   applicationName: company.name,
   keywords: [
     company.name,
@@ -40,13 +42,15 @@ export const metadata: Metadata = {
     siteName: company.name,
     locale: "ko_KR",
     url: company.siteUrl,
-    title: `${company.name} — ${company.tagline}`,
-    description: `${company.taglineKo}. ${company.description}`,
+    title: company.seo.shareTitle,
+    description: company.seo.shareDescription,
+    images: [shareImage],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${company.name} — ${company.tagline}`,
-    description: `${company.taglineKo}. ${company.description}`,
+    title: company.seo.shareTitle,
+    description: company.seo.shareDescription,
+    images: [shareImage],
   },
   robots: { index: true, follow: true },
 };

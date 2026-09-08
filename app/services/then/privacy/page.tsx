@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Container } from "@/components/Container";
 import { PolicyBody } from "@/components/PolicyBody";
 import { company } from "@/data/company";
+import { shareImage } from "@/lib/seo";
 import {
   type Locale,
   locales,
@@ -46,6 +47,7 @@ export async function generateMetadata({
       url: `${company.siteUrl}${hrefFor(locale)}`,
       title: doc.title,
       locale: locale === "ko" ? "ko_KR" : "en_US",
+      images: [shareImage],
     },
   };
 }

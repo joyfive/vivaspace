@@ -40,6 +40,18 @@ export const company = {
   email: "support@vivaspace.co.kr",
   siteUrl: "https://vivaspace.co.kr",
 
+  /** 검색 · 공유 카드에 노출되는 문구. 본문 카피와 목적이 달라 따로 둡니다. */
+  seo: {
+    title: "VIVASPACE | 아이디어가 살아 숨 쉬는 공간",
+    description:
+      "아이디어를 구조화하고, 실현 가능한 단위로 만들어 디지털 제품으로 구현합니다. VIVASPACE는 웹과 앱을 기획하고 만들고 운영하는 소프트웨어 스튜디오입니다.",
+    /** OG · Twitter 카드는 검색 결과보다 짧고 브랜드 메시지를 앞세웁니다. */
+    shareTitle: "Where ideas take shape. | VIVASPACE",
+    shareDescription:
+      "아이디어가 살아 숨 쉬는 공간. 아이디어를 구조화하고, 실현 가능한 디지털 제품으로 만듭니다.",
+    shareImageAlt: "VIVASPACE — Where ideas take shape.",
+  },
+
   foundedYear: 2026,
 } as const;
 

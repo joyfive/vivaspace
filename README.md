@@ -95,6 +95,27 @@ Available on 섹션에 버튼으로 나옵니다. 하나도 없으면 "출시 �
 `app/privacy/page.tsx`, `app/terms/page.tsx`의 `EFFECTIVE_DATE`도 실제
 시행일로 맞춰주세요.
 
+## SEO · 공유 카드
+
+검색 결과와 공유 카드에 쓰이는 문구는 `data/company.ts`의 `seo` 한 곳에
+있습니다. 본문 카피와 목적이 달라 따로 둡니다.
+
+| 필드 | 쓰이는 곳 |
+| --- | --- |
+| `seo.title` · `seo.description` | `<title>` · `<meta name="description">` |
+| `seo.shareTitle` · `seo.shareDescription` | Open Graph · Twitter 카드 |
+| `seo.shareImageAlt` | 공유 이미지 대체 텍스트 |
+
+하위 페이지 제목은 `%s | VIVASPACE` 형태로 자동 조합됩니다.
+
+**공유 이미지는 `lib/seo.ts`의 `shareImage` 하나로 관리합니다.** 하위 페이지가
+`openGraph`를 직접 정의하면 루트에서 상속한 이미지까지 통째로 덮어써지기
+때문에, `openGraph`를 따로 정의하는 페이지는 이 상수를 반드시 함께 넣어야
+합니다. 넣지 않으면 그 페이지만 공유 카드에 이미지가 빠집니다.
+
+디자인된 PNG로 교체하려면 `public/og.png`를 넣고 `shareImage.url`을
+`/og.png`로 바꾼 뒤 `app/opengraph-image.tsx`를 지우면 됩니다.
+
 ## 제품별 법적 고지
 
 앱스토어 · Play 스토어 심사에 제출하는 주소입니다.
