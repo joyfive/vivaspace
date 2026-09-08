@@ -24,7 +24,7 @@ export function Symbol({
       {alive && (
         <span
           aria-hidden
-          className="symbol-glow pointer-events-none absolute -inset-[22%] rounded-full"
+          className="symbol-glow pointer-events-none absolute -inset-[35%] rounded-full"
         />
       )}
       <Image

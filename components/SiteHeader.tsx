@@ -24,12 +24,22 @@ export function SiteHeader() {
 
           <nav aria-label="주요 메뉴">
             <ul className="flex items-center gap-5 sm:gap-8">
-              {nav.map((item) => (
-                <li key={item.href} className={item.compact ? "" : "hidden sm:block"}>
+              {nav.map((item, index) => (
+                <li
+                  key={item.href}
+                  className={item.compact ? "" : "hidden sm:block"}
+                >
                   <Link
                     href={item.href}
-                    className="text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-faint transition-colors hover:text-ink"
+                    className="group inline-flex items-baseline gap-2 text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-faint transition-colors hover:text-ink"
                   >
+                    {/* 인덱스는 라벨보다 작고 연하게. hover 에서만 브랜드 컬러가 켜집니다. */}
+                    <span
+                      aria-hidden
+                      className="meta hidden text-[0.5625rem] text-line-strong transition-colors group-hover:text-[var(--viva)] sm:inline"
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
                     {item.label}
                   </Link>
                 </li>

@@ -26,7 +26,9 @@
   --pale: #ffbfa3; /* Pale Pink  — 넓은 면적 */
   --accent: #c50f55; /* 텍스트·링크용 (AA 5.6:1) */
   --accent-ink: #ffffff; /* --accent 위에 얹는 색 */
-  --glow: rgba(255, 46, 110, 0.14);
+  --glow-1: rgba(255, 45, 95, 0.13);
+  --glow-2: rgba(255, 95, 120, 0.065);
+  --glow-3: rgba(255, 120, 140, 0.022);
 
   --font-sans: Geist, "Pretendard Variable", Pretendard, -apple-system,
     BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", Roboto,
@@ -50,7 +52,9 @@
     --pale: #ffbfa3;
     --accent: #ff6b8e; /* 다크에서는 밝은 쪽이 읽힙니다 (7.2:1) */
     --accent-ink: #0c0c0d;
-    --glow: rgba(255, 77, 109, 0.18);
+    --glow-1: rgba(255, 77, 109, 0.2);
+    --glow-2: rgba(255, 110, 135, 0.1);
+    --glow-3: rgba(255, 140, 160, 0.035);
   }
 }
 
@@ -150,46 +154,103 @@
    화면 전체가 아니라 심볼 하나만 살아 움직입니다.
    --------------------------------------------------------------- */
 
-@keyframes symbol-drift {
-  0% {
-    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+@keyframes symbol-float {
+  0%,
+  100% {
+    transform: translate3d(0, -6px, 0);
   }
   50% {
-    transform: translate3d(0, -2.2%, 0) rotate(3.2deg) scale(1.025);
-  }
-  100% {
-    transform: translate3d(0, 0.8%, 0) rotate(-1.6deg) scale(0.995);
+    transform: translate3d(0, 6px, 0);
   }
 }
 
-@keyframes symbol-glow {
-  0% {
-    transform: translate3d(-3%, 2%, 0) scale(1);
-    opacity: 0.9;
+@keyframes glow-breathe {
+  0%,
+  100% {
+    opacity: 0.82;
+    transform: scale(1);
   }
   50% {
-    transform: translate3d(4%, -3%, 0) scale(1.12);
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+/* construction line 은 pathLength="1" 이라 경로 길이를 재지 않아도 됩니다. */
+@keyframes line-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
     opacity: 1;
   }
-  100% {
-    transform: translate3d(-2%, 3%, 0) scale(0.96);
-    opacity: 0.85;
+}
+
+@keyframes hero-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 
+/* 심볼: 아주 느린 상하 부유만. 회전 · 확대 없음. */
 .symbol-alive {
-  animation: symbol-drift 22s ease-in-out infinite alternate;
+  animation: symbol-float 9s ease-in-out infinite;
   will-change: transform;
 }
 
+/* Glow: 경계가 보이면 안 됩니다. 핑크 원이 아니라 심볼에서 번져 나온 빛입니다. */
 .symbol-glow {
   background: radial-gradient(
     circle at 50% 50%,
-    var(--glow) 0%,
-    transparent 68%
+    var(--glow-1) 0%,
+    var(--glow-2) 35%,
+    var(--glow-3) 55%,
+    transparent 72%
   );
-  animation: symbol-glow 26s ease-in-out infinite alternate;
-  will-change: transform, opacity;
+  animation: glow-breathe 18s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+.line-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: line-draw 1.6s cubic-bezier(0.33, 0, 0.2, 1) both;
+}
+
+.node-in {
+  animation: fade-in 0.6s ease-out both;
+}
+
+.hero-enter {
+  animation: hero-enter 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+/* 모션을 모두 꺼도 완성된 히어로여야 합니다. */
+@media (prefers-reduced-motion: reduce) {
+  .symbol-alive,
+  .symbol-glow,
+  .line-draw,
+  .node-in,
+  .hero-enter {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    stroke-dashoffset: 0 !important;
+  }
 }
 
 /* 서비스별 포인트 컬러 — data/services.ts 의 accent 값을 인라인 변수로 받습니다.
