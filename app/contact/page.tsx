@@ -20,15 +20,15 @@ export default function ContactPage() {
     <>
       <PageHeader
         eyebrow="Contact"
-        title="문의하기"
+        title={`Contact ${company.name}`}
         description="서비스 및 비즈니스 관련 문의는 아래 이메일로 연락해 주세요. 영업일 기준 2~3일 이내에 답변드립니다."
       />
 
-      <Container>
-        <div className="pb-24 sm:pb-32">
+      <Container wide>
+        <div className="py-16 sm:py-20 sm:pb-32">
           <a
             href={`mailto:${company.email}`}
-            className="group inline-flex items-baseline gap-3 text-2xl font-semibold tracking-tight text-ink sm:text-3xl"
+            className="group inline-flex flex-wrap items-baseline gap-x-4 gap-y-2 text-2xl font-semibold tracking-tight text-ink sm:text-3xl"
           >
             <span className="border-b-2 border-line-strong pb-1 transition-colors duration-200 group-hover:border-accent">
               {company.email}
@@ -42,9 +42,12 @@ export default function ContactPage() {
           </a>
 
           <ul className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-3">
-            {topics.map((topic) => (
+            {topics.map((topic, index) => (
               <li key={topic.label} className="bg-bg p-7">
-                <h2 className="text-[0.9375rem] font-semibold text-ink">
+                <span className="meta text-faint">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <h2 className="mt-3 text-[0.9375rem] font-semibold tracking-tight text-ink">
                   {topic.label}
                 </h2>
                 <p className="mt-2 text-sm leading-relaxed text-muted">

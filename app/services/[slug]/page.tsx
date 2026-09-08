@@ -2,11 +2,13 @@ import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowLink } from "@/components/ArrowLink";
 import { Container } from "@/components/Container";
 import { ServiceHero } from "@/components/ServiceHero";
 import { StoreLinks } from "@/components/StoreLinks";
 import { StatusBadge } from "@/components/StatusBadge";
 import { company } from "@/data/company";
+import { shareImage } from "@/lib/seo";
 import { getService, platformLabel, services } from "@/data/services";
 
 export function generateStaticParams() {
@@ -32,6 +34,7 @@ export async function generateMetadata({
       url: `${company.siteUrl}/services/${service.slug}`,
       title: `${service.name} — ${service.tagline}`,
       description: service.about,
+      images: [shareImage],
     },
   };
 }
@@ -71,12 +74,12 @@ export default async function ServicePage({
         } as CSSProperties
       }
     >
-      <Container>
-        <article className="py-16 sm:py-20 sm:pb-32">
-          <nav aria-label="이동 경로" className="mb-12">
+      <Container wide>
+        <article className="py-14 sm:py-20 sm:pb-32">
+          <nav aria-label="이동 경로" className="mb-14">
             <Link
               href="/#products"
-              className="group inline-flex items-center gap-1.5 text-sm text-faint transition-colors hover:text-ink"
+              className="group inline-flex items-center gap-2 meta text-faint transition-colors hover:text-ink"
             >
               <span
                 aria-hidden
@@ -88,17 +91,26 @@ export default async function ServicePage({
             </Link>
           </nav>
 
-          <header>
-            <h1 className="text-3xl font-semibold leading-tight tracking-tight text-ink sm:text-[2.75rem]">
-              {service.name}
-            </h1>
-            <p className="mt-4 text-lg leading-relaxed text-muted">
-              {service.tagline}
-            </p>
-            <div className="mt-6 flex flex-wrap items-center gap-3">
+          <header className="grid gap-8 border-b border-line pb-12 lg:grid-cols-12">
+            <div className="lg:col-span-8">
+              <p
+                className="meta uppercase"
+                style={{ color: "var(--product-accent)" }}
+              >
+                {service.wordmark}
+              </p>
+              <h1 className="display mt-5 text-[clamp(2rem,5vw,3.25rem)] text-ink">
+                {service.name}
+              </h1>
+              <p className="mt-5 max-w-xl text-lg leading-snug tracking-tight text-muted">
+                {service.tagline}
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-end gap-x-6 gap-y-2 lg:col-span-4 lg:justify-end">
               <StatusBadge status={service.status} />
-              <span className="text-xs text-faint">
-                {service.platforms.map((p) => platformLabel[p]).join(" · ")}
+              <span className="meta text-faint">
+                {service.platforms.map((p) => platformLabel[p]).join(" / ")}
               </span>
             </div>
           </header>
@@ -108,26 +120,26 @@ export default async function ServicePage({
           </div>
 
           {/* About */}
-          <section className="mt-20 border-t border-line pt-10">
-            <h2 className="eyebrow">About</h2>
-            <p className="mt-6 text-lg leading-[1.8] text-ink">
+          <section className="mt-24 grid gap-8 border-t border-line pt-10 lg:grid-cols-12">
+            <h2 className="eyebrow lg:col-span-3">About</h2>
+            <p className="text-lg leading-[1.8] text-ink lg:col-span-9">
               {service.about}
             </p>
           </section>
 
           {/* Features */}
-          <section className="mt-20 border-t border-line pt-10">
-            <h2 className="eyebrow">Features</h2>
-            <ol className="mt-8 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
+          <section className="mt-24 grid gap-8 border-t border-line pt-10 lg:grid-cols-12">
+            <h2 className="eyebrow lg:col-span-3">Features</h2>
+            <ol className="grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:col-span-9">
               {service.features.map((feature, index) => (
                 <li key={feature.title} className="bg-bg p-7">
                   <span
-                    className="font-mono text-xs tabular-nums"
+                    className="meta"
                     style={{ color: "var(--product-accent)" }}
                   >
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="mt-3 text-base font-semibold text-ink">
+                  <h3 className="mt-3 text-base font-semibold tracking-tight text-ink">
                     {feature.title}
                   </h3>
                   <p className="mt-2 text-[0.9375rem] leading-relaxed text-muted">
@@ -139,16 +151,17 @@ export default async function ServicePage({
           </section>
 
           {/* Available on */}
-          <section className="mt-20 border-t border-line pt-10">
-            <h2 className="eyebrow">Available on</h2>
-            <div className="mt-6">
+          <section className="mt-24 grid gap-8 border-t border-line pt-10 lg:grid-cols-12">
+            <h2 className="eyebrow lg:col-span-3">Available on</h2>
+            <div className="lg:col-span-9">
               <StoreLinks service={service} />
             </div>
           </section>
 
           {/* Contact */}
-          <section className="mt-20 border-t border-line pt-10">
-            <p className="text-[0.9375rem] leading-relaxed text-muted">
+          <section className="mt-24 grid gap-8 border-t border-line pt-10 lg:grid-cols-12">
+            <h2 className="eyebrow lg:col-span-3">Contact</h2>
+            <p className="text-[0.9375rem] leading-relaxed text-muted lg:col-span-9">
               {service.name}에 대한 문의는{" "}
               <a
                 href={`mailto:${contactEmail}`}
@@ -156,9 +169,24 @@ export default async function ServicePage({
               >
                 {contactEmail}
               </a>
-              로 보내주세요.
+              로 보내주세요. {company.name}가 직접 만들고 운영합니다.
             </p>
           </section>
+
+          {/* Legal — 제품 전용 방침이 있는 서비스에만 붙습니다. */}
+          {service.privacyPath && (
+            <section className="mt-24 grid gap-8 border-t border-line pt-10 lg:grid-cols-12">
+              <h2 className="eyebrow lg:col-span-3">Legal</h2>
+              <div className="lg:col-span-9">
+                <ArrowLink href={service.privacyPath}>
+                  {service.name} 개인정보처리방침
+                </ArrowLink>
+                <p className="mt-3 text-sm leading-relaxed text-faint">
+                  국문 · 영문으로 제공합니다.
+                </p>
+              </div>
+            </section>
+          )}
         </article>
       </Container>
 

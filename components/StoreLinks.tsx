@@ -39,7 +39,7 @@ export function StoreLinks({ service }: { service: Service }) {
             href={link.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-line-strong px-5 py-2.5 text-sm font-medium text-ink transition-colors duration-200 hover:border-ink hover:bg-ink hover:text-bg"
+            className="inline-flex items-center gap-2 rounded-full border border-line-strong px-5 py-2.5 text-sm font-medium tracking-tight text-ink transition-colors duration-200 hover:border-ink hover:bg-ink hover:text-bg"
           >
             {link.label}
             <span aria-hidden className="text-xs opacity-60">

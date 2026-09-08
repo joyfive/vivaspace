@@ -34,6 +34,8 @@ export type Service = {
   image?: { src: string; alt: string; width: number; height: number };
   /** 서비스 전용 문의 이메일. 없으면 회사 대표 이메일을 사용합니다. */
   contactEmail?: string;
+  /** 제품 전용 개인정보처리방침 경로. 있으면 상세 페이지에 Legal 섹션이 붙습니다. */
+  privacyPath?: string;
 };
 
 export const services: Service[] = [
@@ -102,6 +104,8 @@ export const services: Service[] = [
     status: "preparing",
     accent: { light: "#9A7B1F", dark: "#D9BC63" },
     links: {},
+    privacyPath: "/services/then/privacy",
+    contactEmail: "then@vivaspace.co.kr",
   },
   {
     slug: "cinegauge",

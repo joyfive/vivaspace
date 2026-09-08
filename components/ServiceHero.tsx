@@ -2,8 +2,8 @@ import Image from "next/image";
 import type { Service } from "@/data/services";
 
 /**
- * 대표 이미지가 없는 서비스는 포인트 컬러 패널로 대체합니다.
- * 스크린샷을 추가하려면 public/services/<slug>.png 를 넣고
+ * 대표 이미지가 없는 서비스는 제품 포인트 컬러 필드로 대체합니다.
+ * 스크린샷을 추가하려면 public/ 에 파일을 넣고
  * data/services.ts 의 image 필드를 채우세요.
  */
 export function ServiceHero({ service }: { service: Service }) {
@@ -16,6 +16,7 @@ export function ServiceHero({ service }: { service: Service }) {
           width={service.image.width}
           height={service.image.height}
           priority
+          sizes="(min-width: 1024px) 68rem, 100vw"
           className="h-auto w-full"
         />
       </div>
@@ -32,7 +33,7 @@ export function ServiceHero({ service }: { service: Service }) {
       }}
     >
       <span
-        className="text-[clamp(1.75rem,6vw,3.25rem)] font-semibold uppercase tracking-[0.22em]"
+        className="text-[clamp(1.5rem,5vw,3rem)] font-semibold uppercase tracking-[0.24em]"
         style={{
           color: "color-mix(in oklab, var(--product-accent) 72%, var(--bg))",
         }}

@@ -21,9 +21,10 @@ export default function TermsPage() {
         description={`시행일 ${EFFECTIVE_DATE}`}
       />
 
-      <Container>
-        <div className="pb-24 sm:pb-32">
-          <div className="legal-prose">
+      <Container wide>
+        <div className="pb-24 pt-14 sm:pb-32">
+          {/* 본문은 읽기 좋은 폭으로 제한하되 좌측 기준선은 헤더와 맞춥니다. */}
+          <div className="legal-prose max-w-[46rem]">
             <h2>제1조 (목적)</h2>
             <p>
               본 약관은 {company.nameKo}(이하 &lsquo;회사&rsquo;)가 운영하는

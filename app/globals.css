@@ -2,38 +2,85 @@
 
 /* ---------------------------------------------------------------
    VIVASPACE design tokens
-   화이트 베이스 · 거의 블랙에 가까운 텍스트 · 단일 포인트 컬러
+   Structured outside, alive inside.
+
+   원칙: Neutral 85 / Brand 15.
+   브랜드 컬러는 "칠하는 색"(--viva 계열)과 "읽는 색"(--accent)을
+   분리합니다. 심볼과 그라디언트가 브랜드 인상을 책임지고,
+   텍스트는 대비를 확보한 잉크 톤이 책임집니다.
    --------------------------------------------------------------- */
 
 :root {
+  /* Neutral — pure white base */
   --bg: #ffffff;
-  --surface: #fafaf9;
-  --ink: #111113;
-  --muted: #56565e;
-  --faint: #8b8b93;
-  --line: #e7e7e3;
-  --line-strong: #d3d3ce;
-  --accent: #2445e5;
-  --accent-ink: #ffffff;
+  --ink: #171719;
+  --muted: #5a5a60;
+  --faint: #6c6c74;
 
-  --font-sans: "Pretendard Variable", Pretendard, -apple-system,
-    BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI",
-    Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
-    "Liberation Mono", monospace;
+  /* Pink tint scale — 면과 선은 회색이 아니라 브랜드 색조를 옅게 깐 것입니다.
+     기존 웜 그레이와 같은 밝기로 맞춰 색조만 옮겼습니다. */
+  --pink-50: #fff8fa; /* 넓은 면 · hover 배경 — 흰 배경 위라 아주 옅게 */
+  --pink-100: #ffdbe6; /* 기본 선 */
+  --pink-200: #ffbacf; /* 강한 선 · 테두리 */
+
+  --surface: var(--pink-50);
+  --line: var(--pink-100);
+  --line-strong: var(--pink-200);
+
+  /* Brand — 로고에서 추출한 Red Pink */
+  --viva: #ff2e6e; /* Viva Red   — 면·그라디언트 전용 */
+  --coral: #ff6b6d; /* Soft Coral — 보조 */
+  --pale: #ffbfa3; /* Pale Pink  — 넓은 면적 */
+  --accent: #c50f55; /* 텍스트·링크용 (AA 5.6:1) */
+  --accent-ink: #ffffff; /* --accent 위에 얹는 색 */
+  /* 심볼에서 번져 나오는 빛. 시안의 감쇠 곡선을 실측해 옮겼습니다.
+     심볼 반지름 기준 1.2배에서 alpha 0.15 → 3배에서 0.
+     상자 끝(100%)에서 완전히 투명해지므로 경계가 드러나지 않습니다. */
+  --symbol-glow: radial-gradient(
+    circle closest-side at 50% 50%,
+    rgba(255, 46, 110, 0.2) 0%,
+    rgba(255, 52, 112, 0.15) 39%,
+    rgba(255, 72, 118, 0.096) 49%,
+    rgba(255, 92, 126, 0.048) 59%,
+    rgba(255, 112, 136, 0.028) 69%,
+    rgba(255, 140, 152, 0.008) 83%,
+    transparent 100%
+  );
+
+  --font-sans: Geist, "Pretendard Variable", Pretendard, -apple-system,
+    BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo,
+    Consolas, "Liberation Mono", monospace;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #0c0c0d;
-    --surface: #141416;
-    --ink: #f3f3f1;
-    --muted: #a3a3ab;
-    --faint: #77777f;
-    --line: #26262a;
-    --line-strong: #3a3a40;
-    --accent: #7d95ff;
+    --ink: #f4f2ef;
+    --muted: #a5a5ad;
+    --faint: #83838b;
+
+    /* 다크에서도 같은 역할, 같은 밝기. 색조만 브랜드 쪽으로 옮겼습니다. */
+    --pink-50: #201014;
+    --pink-100: #352126;
+    --pink-200: #4c333c;
+
+    --viva: #ff4d6d;
+    --coral: #ff6b6d;
+    --pale: #ffbfa3;
+    --accent: #ff6b8e; /* 다크에서는 밝은 쪽이 읽힙니다 (7.2:1) */
     --accent-ink: #0c0c0d;
+    --symbol-glow: radial-gradient(
+      circle closest-side at 50% 50%,
+      rgba(255, 77, 109, 0.26) 0%,
+      rgba(255, 82, 114, 0.19) 39%,
+      rgba(255, 98, 126, 0.12) 49%,
+      rgba(255, 115, 138, 0.06) 59%,
+      rgba(255, 132, 150, 0.034) 69%,
+      rgba(255, 155, 168, 0.01) 83%,
+      transparent 100%
+    );
   }
 }
 
@@ -45,6 +92,9 @@
   --color-faint: var(--faint);
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
+  --color-viva: var(--viva);
+  --color-coral: var(--coral);
+  --color-pale: var(--pale);
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
 
@@ -62,6 +112,7 @@
     background-color: var(--bg);
     color: var(--ink);
     font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv01";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -70,8 +121,8 @@
   }
 
   ::selection {
-    background-color: var(--accent);
-    color: var(--accent-ink);
+    background-color: var(--viva);
+    color: #ffffff;
   }
 
   :focus-visible {
@@ -88,20 +139,140 @@
     *::before,
     *::after {
       animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
   }
 }
 
+/* ---------------------------------------------------------------
+   타이포 유틸리티
+   큰 메시지는 과감하게, UI 디테일은 작고 절제되게.
+   --------------------------------------------------------------- */
+
+/* 섹션 위 작은 라벨 — 대문자 + 넓은 자간 */
 @utility eyebrow {
   font-size: 0.6875rem;
   font-weight: 500;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--faint);
 }
 
-/* 서비스별 포인트 컬러 — data/services.ts 의 accent 값을 인라인 변수로 받습니다. */
+/* 히어로·섹션 헤드라인 — 짧은 문장 전용 */
+@utility display {
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+/* 인덱스 번호, 상태값 등 기계적인 수치 */
+@utility meta {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+}
+
+/* ---------------------------------------------------------------
+   One living element
+   화면 전체가 아니라 심볼 하나만 살아 움직입니다.
+   --------------------------------------------------------------- */
+
+@keyframes symbol-float {
+  0%,
+  100% {
+    transform: translate3d(0, -6px, 0);
+  }
+  50% {
+    transform: translate3d(0, 6px, 0);
+  }
+}
+
+@keyframes glow-breathe {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* construction line 은 pathLength="1" 이라 경로 길이를 재지 않아도 됩니다. */
+@keyframes line-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes hero-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 심볼: 아주 느린 상하 부유만. 회전 · 확대 없음. */
+.symbol-alive {
+  animation: symbol-float 9s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Glow: 경계가 보이면 안 됩니다. 핑크 원이 아니라 심볼에서 번져 나온 빛입니다.
+   요소가 매우 크므로 scale 대신 opacity 만 아주 느리게 움직입니다. */
+.symbol-glow {
+  background: var(--symbol-glow);
+  animation: glow-breathe 18s ease-in-out infinite;
+}
+
+.line-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: line-draw 1.6s cubic-bezier(0.33, 0, 0.2, 1) both;
+}
+
+.node-in {
+  animation: fade-in 0.6s ease-out both;
+}
+
+.hero-enter {
+  animation: hero-enter 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+/* 모션을 모두 꺼도 완성된 히어로여야 합니다. */
+@media (prefers-reduced-motion: reduce) {
+  .symbol-alive,
+  .symbol-glow,
+  .line-draw,
+  .node-in,
+  .hero-enter {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+}
+
+/* 서비스별 포인트 컬러 — data/services.ts 의 accent 값을 인라인 변수로 받습니다.
+   비바스페이스 사이트 안에서도 제품은 각자의 컬러를 유지합니다. */
 [data-product] {
   --product-accent: var(--pa-light, var(--accent));
 }
@@ -112,7 +283,10 @@
   }
 }
 
-/* 약관 · 방침 등 긴 본문 */
+/* ---------------------------------------------------------------
+   약관 · 방침 등 긴 본문
+   --------------------------------------------------------------- */
+
 .legal-prose {
   color: var(--muted);
   font-size: 0.9375rem;
@@ -177,4 +351,20 @@
 .legal-prose strong {
   color: var(--ink);
   font-weight: 600;
+}
+
+/* 앱 안의 UI 값을 그대로 인용할 때 (예: 반복주기 `없음`) */
+.legal-prose code {
+  padding: 0.15em 0.45em;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background-color: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+
+/* 절 사이 간격 — 첫 절은 도입 문단 바로 뒤라 위쪽 여백을 줄입니다. */
+.legal-prose section > h2:first-child {
+  margin-top: 2.75rem;
 }
