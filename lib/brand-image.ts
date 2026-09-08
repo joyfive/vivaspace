@@ -17,7 +17,7 @@ export const BRAND_GRADIENT =
   "linear-gradient(135deg, #FF8A3D 0%, #FF6B6D 38%, #FF2E6E 100%)";
 
 export const BRAND = {
-  bg: "#FAF9F7",
+  bg: "#FFFFFF",
   ink: "#171719",
   muted: "#5A5A60",
   faint: "#6C6C74",
