@@ -11,7 +11,7 @@ import {
   thenPrivacy,
 } from "@/data/legal/then-privacy";
 
-const PATH = "/projects/then/privacy";
+const PATH = "/services/then/privacy";
 
 /** 국문이 기본이라 쿼리 없이도 열립니다. */
 function hrefFor(locale: Locale) {

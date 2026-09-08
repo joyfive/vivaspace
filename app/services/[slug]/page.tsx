@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowLink } from "@/components/ArrowLink";
 import { Container } from "@/components/Container";
 import { ServiceHero } from "@/components/ServiceHero";
 import { StoreLinks } from "@/components/StoreLinks";
@@ -169,6 +170,21 @@ export default async function ServicePage({
               로 보내주세요. {company.name}가 직접 만들고 운영합니다.
             </p>
           </section>
+
+          {/* Legal — 제품 전용 방침이 있는 서비스에만 붙습니다. */}
+          {service.privacyPath && (
+            <section className="mt-24 grid gap-8 border-t border-line pt-10 lg:grid-cols-12">
+              <h2 className="eyebrow lg:col-span-3">Legal</h2>
+              <div className="lg:col-span-9">
+                <ArrowLink href={service.privacyPath}>
+                  {service.name} 개인정보처리방침
+                </ArrowLink>
+                <p className="mt-3 text-sm leading-relaxed text-faint">
+                  국문 · 영문으로 제공합니다.
+                </p>
+              </div>
+            </section>
+          )}
         </article>
       </Container>
 

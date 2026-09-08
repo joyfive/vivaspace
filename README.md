@@ -25,10 +25,10 @@ npm run typecheck
 app/
 ├── page.tsx                  홈 — Hero / Products / Process / About / Contact
 ├── services/[slug]/page.tsx  서비스 상세 (동적 라우트)
+├── services/then/privacy/    Then 개인정보처리방침 (?lan=ko · ?lan=en)
 ├── contact/page.tsx          문의
 ├── privacy/page.tsx          개인정보처리방침
 ├── terms/page.tsx            이용약관
-├── projects/then/privacy/    Then 개인정보처리방침 (?lan=ko · ?lan=en)
 ├── sitemap.ts · robots.ts    SEO
 ├── icon.tsx                  파비콘 (심볼 기반, 동적 생성)
 ├── apple-icon.tsx            iOS 홈 화면 아이콘 (동적 생성)
@@ -101,7 +101,7 @@ Available on 섹션에 버튼으로 나옵니다. 하나도 없으면 "출시 �
 
 | 제품 | 경로 |
 | --- | --- |
-| Then | `/projects/then/privacy` (국문) · `?lan=en` (영문) |
+| Then | `/services/then/privacy` (국문) · `?lan=en` (영문) |
 
 본문은 `data/legal/`에 국문 · 영문을 나란히 두고, 쿼리(`?lan=`)로 전환합니다.
 쿼리를 읽으므로 이 라우트만 정적 생성이 아니라 요청 시 서버 렌더입니다.
@@ -109,6 +109,13 @@ Available on 섹션에 버튼으로 나옵니다. 하나도 없으면 "출시 �
 
 본문에서 백틱으로 감싼 부분(`` `없음` ``)은 앱 안의 UI 값으로,
 그대로 적힌 이메일 주소는 `mailto` 링크로 자동 렌더됩니다.
+
+`data/services.ts`의 `privacyPath`를 채우면 해당 서비스 상세 페이지 하단에
+Legal 섹션이 자동으로 붙습니다. 비워두면 섹션 자체가 나오지 않습니다.
+
+정적 세그먼트(`services/then/`)와 동적 세그먼트(`services/[slug]`)는 공존합니다.
+`/services/then` 은 계속 `[slug]` 로 프리렌더되고, `/services/then/privacy` 만
+별도 라우트입니다.
 
 ## 브랜드
 
