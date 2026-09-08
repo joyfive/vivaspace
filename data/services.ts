@@ -166,14 +166,10 @@ export const services: Service[] = [
     ],
     platforms: ["web"],
     status: "live",
-    accent: { light: "#2A7A5F", dark: "#68C4A2" },
+    /* 제품이 실제로 쓰는 파랑입니다. 카드 비주얼 안의 UI 와 같은 색이어야
+       비바스페이스의 Red Pink 와 부딪히지 않고 제품 색으로 읽힙니다. */
+    accent: { light: "#2D5DC8", dark: "#6486EF" },
     links: { website: "https://kitfolio.app" },
-    image: {
-      src: "/kitfolio-thumbnail.webp",
-      alt: "노트북 화면에 열린 Kitfolio — 직무별로 정리된 도구 목록",
-      width: 1731,
-      height: 909,
-    },
     contactEmail: "support@kitfolio.app",
   },
 ];

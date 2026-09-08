@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { Service } from "@/data/services";
 import { platformLabel } from "@/data/services";
+import { getProductVisual } from "./products";
 import { StatusBadge } from "./StatusBadge";
 
 /**
@@ -16,7 +17,11 @@ import { StatusBadge } from "./StatusBadge";
 const statusRank = { live: 0, beta: 1, preparing: 2 } as const;
 
 function isFeatured(service: Service) {
-  return service.status === "live" || Boolean(service.image);
+  return (
+    service.status === "live" ||
+    Boolean(service.image) ||
+    Boolean(getProductVisual(service.slug))
+  );
 }
 
 export function ProductGrid({ services }: { services: Service[] }) {
@@ -50,9 +55,10 @@ function ProductTile({ service }: { service: Service }) {
     >
       <Link
         href={`/services/${service.slug}`}
-        className="group flex h-full flex-col transition-colors duration-200 hover:bg-surface"
+        className="group flex h-full flex-col transition-[background-color,box-shadow] duration-200 hover:bg-surface hover:shadow-[inset_0_0_0_1px_var(--line-strong)]"
       >
-        {featured ? <FeaturedVisual service={service} /> : <AccentRule />}
+        <AccentRule />
+        {featured && <FeaturedVisual service={service} />}
 
         <div className="flex flex-1 flex-col p-7 sm:p-8">
           <span
@@ -81,7 +87,7 @@ function ProductTile({ service }: { service: Service }) {
             </span>
             <span
               aria-hidden
-              className="ml-auto text-sm text-faint transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-ink"
+              className="ml-auto text-sm text-faint transition-all duration-200 group-hover:translate-x-1 group-hover:text-ink"
             >
               →
             </span>
@@ -92,8 +98,15 @@ function ProductTile({ service }: { service: Service }) {
   );
 }
 
-/** 대표 이미지가 있으면 이미지를, 없으면 제품 컬러 필드를 씁니다. */
+/**
+ * 제품 비주얼 → 대표 이미지 → 제품 컬러 필드 순으로 씁니다.
+ * 비주얼은 자기 비율을 직접 들고 있어서 폭만 넘겨받습니다.
+ */
 function FeaturedVisual({ service }: { service: Service }) {
+  const Visual = getProductVisual(service.slug);
+
+  if (Visual) return <Visual />;
+
   if (service.image) {
     return (
       <div className="relative aspect-[16/9] overflow-hidden bg-surface lg:aspect-[3/1]">
@@ -120,12 +133,12 @@ function FeaturedVisual({ service }: { service: Service }) {
   );
 }
 
-/** 좁은 모듈은 제품 컬러를 얇은 선 하나로만 드러냅니다. */
+/** 제품 컬러가 드러나는 유일한 자리입니다. hover 에서만 조금 진해집니다. */
 function AccentRule() {
   return (
     <div
       aria-hidden
-      className="h-1"
+      className="h-1 opacity-80 transition-opacity duration-300 group-hover:opacity-100"
       style={{
         background:
           "linear-gradient(90deg, var(--product-accent) 0%, color-mix(in oklab, var(--product-accent) 12%, var(--bg)) 100%)",
