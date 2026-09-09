@@ -25,6 +25,7 @@ npm run typecheck
 app/
 ├── page.tsx                  홈 — Hero / Products / Process / About / Contact
 ├── services/[slug]/page.tsx  서비스 상세 (동적 라우트)
+├── services/then/support/    Then 고객지원 (스토어 Support URL)
 ├── services/then/privacy/    Then 개인정보처리방침 (?lan=ko · ?lan=en)
 ├── contact/page.tsx          문의
 ├── privacy/page.tsx          개인정보처리방침
@@ -37,7 +38,9 @@ data/
 ├── company.ts                사업자 · 브랜드 정보 · 키워드 · Process 단계
 └── services.ts               서비스 메타데이터 (단일 소스)
 
+data/prose.ts                 긴 본문의 블록 타입 (방침 · 고객지원 공용)
 data/legal/then-privacy.ts    Then 방침 본문 (국문 · 영문)
+data/support/then-support.ts  Then 고객지원 본문
 lib/brand-image.ts            ImageResponse 용 심볼 · 브랜드 상수
 lib/seo.ts                    공유 카드 이미지 (전 페이지 공용)
 public/og.png                 OG · Twitter 카드 이미지
@@ -69,6 +72,8 @@ public/symbol-256.png         심볼 (파비콘 용)
   accent: { light: "#...", dark: "#..." },
   links: { appStore: "...", googlePlay: "...", website: "..." },
   contactEmail: "support@example.app",  // 생략하면 회사 대표 이메일 사용
+  supportPath: "/services/newapp/support",   // 있으면 Contact 섹션에 링크가 붙습니다
+  privacyPath: "/services/newapp/privacy",   // 있으면 Legal 섹션이 붙습니다
 }
 ```
 
@@ -118,27 +123,36 @@ Available on 섹션에 버튼으로 나옵니다. 하나도 없으면 "출시 �
 때는 `shareImage`의 `width` · `height`도 실제 파일 크기에 맞춰주세요. 선언값과
 파일이 다르면 일부 크롤러가 카드를 잘못된 비율로 잡습니다.
 
-## 제품별 법적 고지
+## 제품별 고객지원 · 법적 고지
 
-앱스토어 · Play 스토어 심사에 제출하는 주소입니다.
+앱스토어 · Play 스토어 심사에 제출하는 주소입니다. 고객지원 페이지는 App Store
+의 필수 Support URL, Google Play 의 권장 지원 웹사이트 자리에 들어갑니다.
 
-| 제품 | 경로 |
-| --- | --- |
-| Then | `/services/then/privacy` (국문) · `?lan=en` (영문) |
+| 제품 | 용도 | 경로 |
+| --- | --- | --- |
+| Then | 고객지원 | `/services/then/support` |
+| Then | 개인정보처리방침 | `/services/then/privacy` (국문) · `?lan=en` (영문) |
 
-본문은 `data/legal/`에 국문 · 영문을 나란히 두고, 쿼리(`?lan=`)로 전환합니다.
-쿼리를 읽으므로 이 라우트만 정적 생성이 아니라 요청 시 서버 렌더입니다.
-`lan` 값이 없거나 알 수 없는 값이면 국문으로 떨어집니다.
+방침 본문은 `data/legal/`에 국문 · 영문을 나란히 두고, 쿼리(`?lan=`)로
+전환합니다. 쿼리를 읽으므로 이 라우트만 정적 생성이 아니라 요청 시 서버
+렌더입니다. `lan` 값이 없거나 알 수 없는 값이면 국문으로 떨어집니다.
+고객지원 본문은 `data/support/`에 있고 국문 한 가지라 정적으로 생성됩니다.
 
-본문에서 백틱으로 감싼 부분(`` `없음` ``)은 앱 안의 UI 값으로,
-그대로 적힌 이메일 주소는 `mailto` 링크로 자동 렌더됩니다.
+두 본문 모두 `data/prose.ts`의 블록(`p` · `ul` · `ol`)으로 씁니다. 백틱으로
+감싼 부분(`` `없음` ``)은 앱 안의 UI 값으로, 그대로 적힌 이메일 주소는
+`mailto` 링크로 자동 렌더됩니다. 렌더는 `components/ProseBlocks.tsx` 하나가
+맡습니다.
 
-`data/services.ts`의 `privacyPath`를 채우면 해당 서비스 상세 페이지 하단에
-Legal 섹션이 자동으로 붙습니다. 비워두면 섹션 자체가 나오지 않습니다.
+고객지원 페이지의 자주 묻는 질문은 `FAQPage` 구조화 데이터로도 함께 나갑니다.
+질문을 고치면 검색 결과에 노출되는 내용도 같이 바뀝니다.
+
+`data/services.ts`의 `supportPath` · `privacyPath`를 채우면 해당 서비스 상세
+페이지의 Contact · Legal 섹션에 링크가 자동으로 붙습니다. 비워두면 링크와
+섹션이 나오지 않습니다.
 
 정적 세그먼트(`services/then/`)와 동적 세그먼트(`services/[slug]`)는 공존합니다.
-`/services/then` 은 계속 `[slug]` 로 프리렌더되고, `/services/then/privacy` 만
-별도 라우트입니다.
+`/services/then` 은 계속 `[slug]` 로 프리렌더되고, `/services/then/support` ·
+`/services/then/privacy` 만 별도 라우트입니다.
 
 ## 브랜드
 

@@ -36,6 +36,8 @@ export type Service = {
   contactEmail?: string;
   /** 제품 전용 개인정보처리방침 경로. 있으면 상세 페이지에 Legal 섹션이 붙습니다. */
   privacyPath?: string;
+  /** 제품 전용 고객지원 경로. 스토어의 Support URL 로 제출하는 주소입니다. */
+  supportPath?: string;
 };
 
 export const services: Service[] = [
@@ -105,6 +107,7 @@ export const services: Service[] = [
     accent: { light: "#9A7B1F", dark: "#D9BC63" },
     links: {},
     privacyPath: "/services/then/privacy",
+    supportPath: "/services/then/support",
     contactEmail: "then@vivaspace.co.kr",
   },
   {
