@@ -1,8 +1,10 @@
 /**
  * Then 개인정보처리방침 (국문 · 영문).
  *
- * 백틱으로 감싼 부분은 앱 안의 UI 값으로 렌더됩니다. 예: `없음`
+ * 본문 블록의 표기 규칙은 data/prose.ts 에 있습니다.
  */
+
+import type { Section } from "@/data/prose";
 
 export type Locale = "ko" | "en";
 
@@ -12,12 +14,6 @@ export function resolveLocale(value: string | string[] | undefined): Locale {
   const raw = Array.isArray(value) ? value[0] : value;
   return raw === "en" ? "en" : "ko";
 }
-
-export type Block =
-  | { type: "p"; text: string }
-  | { type: "ul"; items: string[] };
-
-export type Section = { heading: string; blocks: Block[] };
 
 export type PolicyDocument = {
   title: string;

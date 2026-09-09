@@ -161,16 +161,30 @@ export default async function ServicePage({
           {/* Contact */}
           <section className="mt-24 grid gap-8 border-t border-line pt-10 lg:grid-cols-12">
             <h2 className="eyebrow lg:col-span-3">Contact</h2>
-            <p className="text-[0.9375rem] leading-relaxed text-muted lg:col-span-9">
-              {service.name}에 대한 문의는{" "}
-              <a
-                href={`mailto:${contactEmail}`}
-                className="text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-current"
-              >
-                {contactEmail}
-              </a>
-              로 보내주세요. {company.name}가 직접 만들고 운영합니다.
-            </p>
+            <div className="lg:col-span-9">
+              <p className="text-[0.9375rem] leading-relaxed text-muted">
+                {service.name}에 대한 문의는{" "}
+                <a
+                  href={`mailto:${contactEmail}`}
+                  className="text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-current"
+                >
+                  {contactEmail}
+                </a>
+                로 보내주세요. {company.name}가 직접 만들고 운영합니다.
+              </p>
+
+              {/* 고객지원 페이지가 있는 서비스만 — 스토어의 Support URL 과 같은 곳입니다. */}
+              {service.supportPath && (
+                <div className="mt-6">
+                  <ArrowLink href={service.supportPath}>
+                    {service.name} 고객지원
+                  </ArrowLink>
+                  <p className="mt-3 text-sm leading-relaxed text-faint">
+                    자주 묻는 질문과 문의 안내를 정리해 두었습니다.
+                  </p>
+                </div>
+              )}
+            </div>
           </section>
 
           {/* Legal — 제품 전용 방침이 있는 서비스에만 붙습니다. */}
