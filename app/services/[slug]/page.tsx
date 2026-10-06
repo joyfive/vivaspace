@@ -9,7 +9,12 @@ import { StoreLinks } from "@/components/StoreLinks";
 import { StatusBadge } from "@/components/StatusBadge";
 import { company } from "@/data/company";
 import { shareImage } from "@/lib/seo";
-import { getService, platformLabel, services } from "@/data/services";
+import {
+  getService,
+  platformLabel,
+  platformsText,
+  services,
+} from "@/data/services";
 
 export function generateStaticParams() {
   return services.map((service) => ({ slug: service.slug }));
@@ -110,7 +115,7 @@ export default async function ServicePage({
             <div className="flex flex-wrap items-end gap-x-6 gap-y-2 lg:col-span-4 lg:justify-end">
               <StatusBadge status={service.status} />
               <span className="meta text-faint">
-                {service.platforms.map((p) => platformLabel[p]).join(" / ")}
+                {platformsText(service)}
               </span>
             </div>
           </header>

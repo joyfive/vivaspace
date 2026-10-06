@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { Service } from "@/data/services";
-import { platformLabel } from "@/data/services";
+import { platformsText } from "@/data/services";
 import { getProductVisual } from "./products";
 import { StatusBadge } from "./StatusBadge";
 
@@ -83,7 +83,7 @@ function ProductTile({ service }: { service: Service }) {
           <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 pt-8">
             <StatusBadge status={service.status} />
             <span className="meta text-faint">
-              {service.platforms.map((p) => platformLabel[p]).join(" / ")}
+              {platformsText(service)}
             </span>
             <span
               aria-hidden

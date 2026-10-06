@@ -22,7 +22,10 @@ export type Service = {
   about: string;
   features: { title: string; description: string }[];
   platforms: Platform[];
+  /** 서비스 전체 상태 — 한 플랫폼이라도 출시되면 live 입니다. */
   status: ServiceStatus;
+  /** 플랫폼마다 출시 시점이 다를 때, status 와 다른 플랫폼만 적습니다. */
+  platformStatus?: Partial<Record<Platform, ServiceStatus>>;
   /** 브랜드 포인트 컬러 (light / dark) */
   accent: { light: string; dark: string };
   links: {
@@ -102,10 +105,14 @@ export const services: Service[] = [
           "계정도 광고도 없습니다. 기록과 반복 알림은 내 기기에만 저장됩니다.",
       },
     ],
-    platforms: ["ios", "android"],
-    status: "preparing",
+    platforms: ["android", "ios"],
+    status: "live",
+    platformStatus: { ios: "preparing" },
     accent: { light: "#9A7B1F", dark: "#D9BC63" },
-    links: {},
+    links: {
+      googlePlay:
+        "https://play.google.com/store/apps/details?id=com.vivaspace.then",
+    },
     privacyPath: "/services/then/privacy",
     supportPath: "/services/then/support",
     contactEmail: "then@vivaspace.co.kr",
@@ -192,3 +199,22 @@ export const platformLabel: Record<Platform, string> = {
   android: "Android",
   web: "Web",
 };
+
+/** 카드 · 상세 상단의 플랫폼 표기. 출시 시점이 다른 플랫폼에는 상태를 붙입니다. */
+export function platformsText(service: Service): string {
+  return service.platforms
+    .map((platform) => {
+      const status = service.platformStatus?.[platform];
+      return status && status !== service.status
+        ? `${platformLabel[platform]} ${statusLabel[status]}`
+        : platformLabel[platform];
+    })
+    .join(" / ");
+}
+
+/** 아직 출시되지 않은 플랫폼 — 스토어 링크 아래 안내 문구에 씁니다. */
+export function pendingPlatforms(service: Service): Platform[] {
+  return service.platforms.filter(
+    (platform) => service.platformStatus?.[platform] === "preparing",
+  );
+}
