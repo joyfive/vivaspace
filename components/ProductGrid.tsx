@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { Service } from "@/data/services";
-import { platformLabel } from "@/data/services";
+import { platformsText } from "@/data/services";
 import { getProductVisual } from "./products";
 import { StatusBadge } from "./StatusBadge";
 
@@ -34,7 +34,7 @@ export function ProductGrid({ services }: { services: Service[] }) {
       {ordered.map((service) => (
         <ProductTile key={service.slug} service={service} />
       ))}
-      <NextTile />
+      <NextTile services={ordered} />
     </ul>
   );
 }
@@ -82,9 +82,7 @@ function ProductTile({ service }: { service: Service }) {
 
           <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 pt-8">
             <StatusBadge status={service.status} />
-            <span className="meta text-faint">
-              {service.platforms.map((p) => platformLabel[p]).join(" / ")}
-            </span>
+            <span className="meta text-faint">{platformsText(service)}</span>
             <span
               aria-hidden
               className="ml-auto text-sm text-faint transition-all duration-200 group-hover:translate-x-1 group-hover:text-ink"
@@ -107,9 +105,16 @@ function FeaturedVisual({ service }: { service: Service }) {
 
   if (Visual) return <Visual />;
 
+  /* 대표 이미지는 공유 카드와 같은 파일이라 글자가 들어 있습니다.
+     잘리지 않도록 자기 비율 그대로 보여줍니다. */
   if (service.image) {
     return (
-      <div className="relative aspect-[16/9] overflow-hidden bg-surface lg:aspect-[3/1]">
+      <div
+        className="relative overflow-hidden bg-surface"
+        style={{
+          aspectRatio: `${service.image.width} / ${service.image.height}`,
+        }}
+      >
         <Image
           src={service.image.src}
           alt={service.image.alt}
@@ -147,10 +152,26 @@ function AccentRule() {
   );
 }
 
-/** 다음 제품 자리 — 스튜디오가 멈춰 있지 않다는 표시입니다. */
-function NextTile() {
+/**
+ * 다음 제품 자리 — 스튜디오가 멈춰 있지 않다는 표시입니다.
+ * 마지막 줄의 남는 칸을 채웁니다. 줄이 꽉 찼으면 다음 줄을 통째로 씁니다.
+ * lg 는 6칸(큰 모듈 4 · 작은 모듈 2), sm 은 2칸(큰 모듈 2 · 작은 모듈 1)입니다.
+ */
+const nextLgSpan = {
+  0: "lg:col-span-6",
+  2: "lg:col-span-2",
+  4: "lg:col-span-4",
+} as const;
+
+function NextTile({ services }: { services: Service[] }) {
+  const featured = services.filter(isFeatured).length;
+  const rest = services.length - featured;
+  const lgUsed = (featured * 4 + rest * 2) % 6;
+  const lgSpan = nextLgSpan[((6 - lgUsed) % 6) as 0 | 2 | 4];
+  const smSpan = (featured * 2 + rest) % 2 === 0 ? "sm:col-span-2" : "";
+
   return (
-    <li className="bg-bg lg:col-span-2">
+    <li className={`bg-bg ${smSpan} ${lgSpan}`}>
       <div aria-hidden className="h-1 bg-line" />
       <div className="flex h-full flex-col p-7 sm:p-8">
         <span className="meta uppercase text-faint">Next</span>

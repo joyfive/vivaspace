@@ -9,7 +9,13 @@ import { StoreLinks } from "@/components/StoreLinks";
 import { StatusBadge } from "@/components/StatusBadge";
 import { company } from "@/data/company";
 import { shareImage } from "@/lib/seo";
-import { getService, platformLabel, services } from "@/data/services";
+import {
+  getService,
+  platformLabel,
+  platformsText,
+  serviceShareImage,
+  services,
+} from "@/data/services";
 
 export function generateStaticParams() {
   return services.map((service) => ({ slug: service.slug }));
@@ -34,7 +40,13 @@ export async function generateMetadata({
       url: `${company.siteUrl}/services/${service.slug}`,
       title: `${service.name} — ${service.tagline}`,
       description: service.about,
-      images: [shareImage],
+      images: [serviceShareImage(service) ?? shareImage],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${service.name} — ${service.tagline}`,
+      description: service.tagline,
+      images: [serviceShareImage(service) ?? shareImage],
     },
   };
 }
@@ -109,9 +121,7 @@ export default async function ServicePage({
 
             <div className="flex flex-wrap items-end gap-x-6 gap-y-2 lg:col-span-4 lg:justify-end">
               <StatusBadge status={service.status} />
-              <span className="meta text-faint">
-                {service.platforms.map((p) => platformLabel[p]).join(" / ")}
-              </span>
+              <span className="meta text-faint">{platformsText(service)}</span>
             </div>
           </header>
 
