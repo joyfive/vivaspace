@@ -13,6 +13,7 @@ import {
   getService,
   platformLabel,
   platformsText,
+  serviceShareImage,
   services,
 } from "@/data/services";
 
@@ -39,7 +40,13 @@ export async function generateMetadata({
       url: `${company.siteUrl}/services/${service.slug}`,
       title: `${service.name} — ${service.tagline}`,
       description: service.about,
-      images: [shareImage],
+      images: [serviceShareImage(service) ?? shareImage],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${service.name} — ${service.tagline}`,
+      description: service.tagline,
+      images: [serviceShareImage(service) ?? shareImage],
     },
   };
 }
@@ -114,9 +121,7 @@ export default async function ServicePage({
 
             <div className="flex flex-wrap items-end gap-x-6 gap-y-2 lg:col-span-4 lg:justify-end">
               <StatusBadge status={service.status} />
-              <span className="meta text-faint">
-                {platformsText(service)}
-              </span>
+              <span className="meta text-faint">{platformsText(service)}</span>
             </div>
           </header>
 

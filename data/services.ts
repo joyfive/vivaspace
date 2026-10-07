@@ -33,8 +33,14 @@ export type Service = {
     googlePlay?: string;
     website?: string;
   };
-  /** 대표 이미지 — public/ 기준 경로. 없으면 컬러 패널로 대체됩니다. */
+  /**
+   * 대표 이미지 — public/ 기준 경로. 없으면 컬러 패널로 대체됩니다.
+   * 공유 카드(OG) 이미지로도 그대로 쓰이니, 카톡이 읽을 수 있는 png/jpg 로
+   * 1200×630 비율에 맞춰 넣어주세요.
+   */
   image?: { src: string; alt: string; width: number; height: number };
+  /** 카톡 · SNS 에 뿌리는 공유 랜딩 경로. 스토어 링크 대신 이 주소를 공유합니다. */
+  sharePath?: string;
   /** 서비스 전용 문의 이메일. 없으면 회사 대표 이메일을 사용합니다. */
   contactEmail?: string;
   /** 제품 전용 개인정보처리방침 경로. 있으면 상세 페이지에 Legal 섹션이 붙습니다. */
@@ -55,19 +61,23 @@ export const services: Service[] = [
     features: [
       {
         title: "여러 권의 진행 상태 관리",
-        description: "동시에 읽는 책들의 진행률과 최근 기록을 한눈에 확인합니다.",
+        description:
+          "동시에 읽는 책들의 진행률과 최근 기록을 한눈에 확인합니다.",
       },
       {
         title: "종이책 · 전자책 · 오디오북 기록",
-        description: "매체가 달라도 페이지, 퍼센트, 재생 시간으로 각각 기록합니다.",
+        description:
+          "매체가 달라도 페이지, 퍼센트, 재생 시간으로 각각 기록합니다.",
       },
       {
         title: "독서 환경별 기록",
-        description: "언제 어디서 읽었는지를 함께 남겨 나의 독서 패턴을 확인합니다.",
+        description:
+          "언제 어디서 읽었는지를 함께 남겨 나의 독서 패턴을 확인합니다.",
       },
       {
         title: "독서 히스토리",
-        description: "완독한 책과 지나온 기록이 쌓여 나만의 독서 연표가 됩니다.",
+        description:
+          "완독한 책과 지나온 기록이 쌓여 나만의 독서 연표가 됩니다.",
       },
     ],
     platforms: ["ios", "android"],
@@ -113,6 +123,13 @@ export const services: Service[] = [
       googlePlay:
         "https://play.google.com/store/apps/details?id=com.vivaspace.then",
     },
+    image: {
+      src: "/images/products/then/then.png",
+      alt: "Then — 계획 말고, 했던 날만. 마지막으로 한 날만 가볍게 기록하는 앱",
+      width: 1200,
+      height: 630,
+    },
+    sharePath: "/services/then/share",
     privacyPath: "/services/then/privacy",
     supportPath: "/services/then/support",
     contactEmail: "then@vivaspace.co.kr",
@@ -163,11 +180,13 @@ export const services: Service[] = [
       },
       {
         title: "자주 쓰는 도구 모음",
-        description: "변환, 계산, 정리 등 반복되는 작업을 위한 도구를 제공합니다.",
+        description:
+          "변환, 계산, 정리 등 반복되는 작업을 위한 도구를 제공합니다.",
       },
       {
         title: "일관된 사용 방식",
-        description: "도구가 늘어나도 조작 방식은 같아서 새로 배울 것이 없습니다.",
+        description:
+          "도구가 늘어나도 조작 방식은 같아서 새로 배울 것이 없습니다.",
       },
       {
         title: "가벼운 동작",
@@ -183,6 +202,13 @@ export const services: Service[] = [
     contactEmail: "support@kitfolio.app",
   },
 ];
+
+/** 서비스의 공유 카드 이미지 = 대표 이미지. 없으면 undefined — 호출부가 회사 이미지로 대체합니다. */
+export function serviceShareImage(service: Service) {
+  if (!service.image) return undefined;
+  const { src, width, height, alt } = service.image;
+  return { url: src, width, height, alt };
+}
 
 export function getService(slug: string): Service | undefined {
   return services.find((service) => service.slug === slug);
