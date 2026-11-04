@@ -120,7 +120,7 @@ export const services: Service[] = [
     accent: { light: "#9A7B1F", dark: "#D9BC63" },
     links: {
       appStore:
-        "https://apps.apple.com/us/app/then-%EC%96%B8%EC%A0%9C-%ED%96%88%EB%8D%94%EB%9D%BC/id6827160726",
+        "https://apps.apple.com/kr/app/then-%EC%96%B8%EC%A0%9C-%ED%96%88%EB%8D%94%EB%9D%BC/id6827160726",
       googlePlay:
         "https://play.google.com/store/apps/details?id=com.vivaspace.then",
     },
