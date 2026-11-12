@@ -30,6 +30,9 @@ function withPlayReferrer(url: string) {
   return `${url}&referrer=${encodeURIComponent(referrer)}`;
 }
 
+const STORE_BUTTON =
+  "inline-flex items-center gap-2 rounded-full bg-ink px-7 py-3.5 text-base font-medium tracking-tight text-bg transition-opacity duration-200 hover:opacity-85";
+
 export const metadata: Metadata = {
   /* 공유 카드 제목이 그대로 보이도록 " | VIVASPACE" 템플릿을 쓰지 않습니다. */
   title: { absolute: TITLE },
@@ -53,7 +56,7 @@ export const metadata: Metadata = {
 };
 
 export default function ThenSharePage() {
-  const googlePlay = service.links.googlePlay;
+  const { appStore, googlePlay } = service.links;
   const pending = pendingPlatforms(service);
 
   return (
@@ -87,18 +90,35 @@ export default function ThenSharePage() {
             {DESCRIPTION}
           </p>
 
-          {googlePlay && (
-            <a
-              href={withPlayReferrer(googlePlay)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-10 inline-flex items-center gap-2 rounded-full bg-ink px-7 py-3.5 text-base font-medium tracking-tight text-bg transition-opacity duration-200 hover:opacity-85"
-            >
-              Google Play에서 다운로드
-              <span aria-hidden className="text-sm opacity-70">
-                ↗
-              </span>
-            </a>
+          {(appStore || googlePlay) && (
+            <div className="mt-10 flex flex-wrap justify-center gap-3">
+              {appStore && (
+                <a
+                  href={appStore}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={STORE_BUTTON}
+                >
+                  App Store에서 다운로드
+                  <span aria-hidden className="text-sm opacity-70">
+                    ↗
+                  </span>
+                </a>
+              )}
+              {googlePlay && (
+                <a
+                  href={withPlayReferrer(googlePlay)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={STORE_BUTTON}
+                >
+                  Google Play에서 다운로드
+                  <span aria-hidden className="text-sm opacity-70">
+                    ↗
+                  </span>
+                </a>
+              )}
+            </div>
           )}
 
           {pending.length > 0 && (
