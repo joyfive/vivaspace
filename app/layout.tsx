@@ -18,7 +18,7 @@ const PRETENDARD_CSS =
   "https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css";
 
 /** Google Tag Manager 컨테이너 ID */
-const GTM_ID = "GTM-TSLKT2PQ";
+const GTM_ID = "GTM-NG9NVMQK";
 
 export const metadata: Metadata = {
   metadataBase: new URL(company.siteUrl),
