@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { company } from "@/data/company";
@@ -15,6 +16,9 @@ const GEIST_CSS =
   "https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..500&display=swap";
 const PRETENDARD_CSS =
   "https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css";
+
+/** Google Tag Manager 컨테이너 ID */
+const GTM_ID = "GTM-TSLKT2PQ";
 
 export const metadata: Metadata = {
   metadataBase: new URL(company.siteUrl),
@@ -104,6 +108,16 @@ export default function RootLayout({
         <link rel="preconnect" href="https://cdn.jsdelivr.net" />
         <link rel="stylesheet" href={GEIST_CSS} />
         <link rel="stylesheet" href={PRETENDARD_CSS} />
+        <Script
+          id="gtm-src"
+          src={`https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="gtm-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());`}
+        </Script>
       </head>
       <body className="flex min-h-dvh flex-col bg-bg text-ink">
         <a
